@@ -16,28 +16,32 @@ export const arcTestnet = defineChain({
   testnet: true,
 });
 
-// ==================== Deployed Contracts (v3 - multi-pool) ====================
+// ==================== Deployed Contracts (v4 - dual AMM) ====================
 
 // Pools
-export const POOL_USDC_EURC = "0x7C22c0C26e846B4Eb4B5EB3556a0EB93c88B844d" as const;
+export const POOL_CP_USDC_EURC = "0x4c6B667a14Eb70F49D3C77f85b5Fc551A2e7CcBc" as const; // ConstantProduct (real price)
+export const POOL_SS_USDC_EURC = "0x7C22c0C26e846B4Eb4B5EB3556a0EB93c88B844d" as const; // StableSwap (legacy)
 export const POOL_USDC_USYC = "0x9baa830F14d43f76ddE073ACcB17D2B5a98ad0e2" as const;
 export const VAULT_ADDRESS = "0x30B0f3Df0B89633aC392D4203F09BDa546d2db77" as const;
-export const MULTI_ROUTER_ADDRESS = "0x3b54FebaCa3b20595E0A0140d110c4Bf3B3580c2" as const;
+export const MULTI_ROUTER_ADDRESS = "0x2d667ad1BB962179072a33B6592de53f184D5187" as const;
 
 // Legacy aliases
-export const POOL_ADDRESS = POOL_USDC_EURC;
+export const POOL_USDC_EURC = POOL_CP_USDC_EURC;
+export const POOL_ADDRESS = POOL_CP_USDC_EURC;
 export const ROUTER_ADDRESS = MULTI_ROUTER_ADDRESS;
 
 // Pool config
 export const POOLS = [
   {
-    name: "USDC / EURC",
-    address: POOL_USDC_EURC,
+    name: "USDC / EURC (x*y=k)",
+    type: "cp" as const,
+    address: POOL_CP_USDC_EURC,
     token0: { symbol: "USDC", address: "0x3600000000000000000000000000000000000000" as const, decimals: 6 },
     token1: { symbol: "EURC", address: "0x89B50855Aa3bE2F677cD6303Cec089B5F319D72a" as const, decimals: 6 },
   },
   {
-    name: "USDC / USYC",
+    name: "USDC / USYC (StableSwap)",
+    type: "ss" as const,
     address: POOL_USDC_USYC,
     token0: { symbol: "USDC", address: "0x3600000000000000000000000000000000000000" as const, decimals: 6 },
     token1: { symbol: "USYC", address: "0xe9185F0c5F296Ed1797AaE4238D26CCaBEadb86C" as const, decimals: 6 },

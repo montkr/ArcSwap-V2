@@ -38,7 +38,7 @@ export default function Home() {
         {/* Footer */}
         <footer className="mt-12 text-center text-xs text-[#64748b] space-y-2">
           <p>
-            ArcSwap DEX — Curve-style StableSwap AMM on{" "}
+            ArcSwap DEX — Dual AMM (x*y=k + StableSwap) on{" "}
             <a
               href="https://testnet.arcscan.app"
               target="_blank" rel="noopener noreferrer"
@@ -50,32 +50,25 @@ export default function Home() {
           </p>
           <div className="flex gap-4 justify-center flex-wrap">
             <a
-              href="https://testnet.arcscan.app/address/0x7C22c0C26e846B4Eb4B5EB3556a0EB93c88B844d"
+              href="https://testnet.arcscan.app/address/0x4c6B667a14Eb70F49D3C77f85b5Fc551A2e7CcBc"
               target="_blank" rel="noopener noreferrer"
               className="text-blue-400 hover:underline"
             >
-              USDC/EURC Pool
+              USDC/EURC (x*y=k)
             </a>
             <a
               href="https://testnet.arcscan.app/address/0x9baa830F14d43f76ddE073ACcB17D2B5a98ad0e2"
               target="_blank" rel="noopener noreferrer"
               className="text-blue-400 hover:underline"
             >
-              USDC/USYC Pool
+              USDC/USYC (StableSwap)
             </a>
             <a
-              href="https://testnet.arcscan.app/address/0x3b54FebaCa3b20595E0A0140d110c4Bf3B3580c2"
+              href="https://testnet.arcscan.app/address/0x2d667ad1BB962179072a33B6592de53f184D5187"
               target="_blank" rel="noopener noreferrer"
               className="text-blue-400 hover:underline"
             >
-              MultiRouter
-            </a>
-            <a
-              href="https://testnet.arcscan.app/address/0x30B0f3Df0B89633aC392D4203F09BDa546d2db77"
-              target="_blank" rel="noopener noreferrer"
-              className="text-blue-400 hover:underline"
-            >
-              Vault
+              MultiRouter v2
             </a>
           </div>
         </footer>

@@ -6,7 +6,7 @@ import {
   USDC_ARC,
   EURC_ARC,
   USYC_ARC,
-  POOL_USDC_EURC,
+  POOL_CP_USDC_EURC,
   POOL_USDC_USYC,
   VAULT_ADDRESS,
   ERC20_ABI,
@@ -38,7 +38,7 @@ export function FaucetCard() {
     args: address ? [address] : undefined, query: { enabled: !!address },
   });
   const { data: lpBal } = useReadContract({
-    address: POOL_USDC_EURC, abi: POOL_ABI, functionName: "balanceOf",
+    address: POOL_CP_USDC_EURC, abi: POOL_ABI, functionName: "balanceOf",
     args: address ? [address] : undefined, query: { enabled: !!address },
   });
   const { data: lp2Bal } = useReadContract({

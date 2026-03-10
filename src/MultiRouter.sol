@@ -4,7 +4,7 @@ pragma solidity ^0.8.24;
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "./StableSwapPool.sol";
+import "./IPool.sol";
 
 /// @title ArcSwap Multi-Pool Router
 /// @notice Routes swaps through the best pool, supports multi-hop
@@ -12,7 +12,7 @@ contract MultiRouter is Ownable {
     using SafeERC20 for IERC20;
 
     struct PoolInfo {
-        StableSwapPool pool;
+        IPool pool;
         address token0;
         address token1;
     }
@@ -32,9 +32,9 @@ contract MultiRouter is Ownable {
 
     constructor() Ownable(msg.sender) {}
 
-    /// @notice Register a pool
+    /// @notice Register a pool (StableSwapPool or ConstantProductPool)
     function addPool(address _pool) external onlyOwner {
-        StableSwapPool pool = StableSwapPool(_pool);
+        IPool pool = IPool(_pool);
         address t0 = address(pool.token0());
         address t1 = address(pool.token1());
 

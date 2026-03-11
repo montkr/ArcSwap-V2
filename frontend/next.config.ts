@@ -2,7 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   output: "export",
-  basePath: "/ArcSwap",
+  basePath: "/ArcSwap-V2",
   images: { unoptimized: true },
 };
 

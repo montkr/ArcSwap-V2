@@ -16,17 +16,18 @@ export const arcTestnet = defineChain({
   testnet: true,
 });
 
-// ==================== Deployed Contracts (v4 - dual AMM) ====================
+// ==================== Deployed Contracts (v5 - triple AMM) ====================
 
 // Pools
-export const POOL_CP_USDC_EURC = "0x4c6B667a14Eb70F49D3C77f85b5Fc551A2e7CcBc" as const; // ConstantProduct (real price)
-export const POOL_SS_USDC_EURC = "0x7C22c0C26e846B4Eb4B5EB3556a0EB93c88B844d" as const; // StableSwap (legacy)
-export const POOL_USDC_USYC = "0x9baa830F14d43f76ddE073ACcB17D2B5a98ad0e2" as const;
+export const POOL_CP_USDC_EURC = "0x4c6B667a14Eb70F49D3C77f85b5Fc551A2e7CcBc" as const;
+export const POOL_SS_USDC_USYC = "0x9baa830F14d43f76ddE073ACcB17D2B5a98ad0e2" as const;
+export const POOL_CCP_USDC_ARC = "0xF045Af472C1cf64e5604991AFB1E90CB97339a7d" as const;
 export const VAULT_ADDRESS = "0x30B0f3Df0B89633aC392D4203F09BDa546d2db77" as const;
 export const MULTI_ROUTER_ADDRESS = "0x2d667ad1BB962179072a33B6592de53f184D5187" as const;
 
 // Legacy aliases
 export const POOL_USDC_EURC = POOL_CP_USDC_EURC;
+export const POOL_USDC_USYC = POOL_SS_USDC_USYC;
 export const POOL_ADDRESS = POOL_CP_USDC_EURC;
 export const ROUTER_ADDRESS = MULTI_ROUTER_ADDRESS;
 
@@ -42,9 +43,16 @@ export const POOLS = [
   {
     name: "USDC / USYC (StableSwap)",
     type: "ss" as const,
-    address: POOL_USDC_USYC,
+    address: POOL_SS_USDC_USYC,
     token0: { symbol: "USDC", address: "0x3600000000000000000000000000000000000000" as const, decimals: 6 },
     token1: { symbol: "USYC", address: "0xe9185F0c5F296Ed1797AaE4238D26CCaBEadb86C" as const, decimals: 6 },
+  },
+  {
+    name: "USDC / ARC (Claimable Fee)",
+    type: "ccp" as const,
+    address: POOL_CCP_USDC_ARC,
+    token0: { symbol: "USDC", address: "0x3600000000000000000000000000000000000000" as const, decimals: 6 },
+    token1: { symbol: "ARC", address: "0x905E3eAf899591398B6Ab6937851f896DE811Ee5" as const, decimals: 18 },
   },
 ] as const;
 
@@ -53,6 +61,7 @@ export const POOLS = [
 export const USDC_ARC = "0x3600000000000000000000000000000000000000" as const;
 export const EURC_ARC = "0x89B50855Aa3bE2F677cD6303Cec089B5F319D72a" as const;
 export const USYC_ARC = "0xe9185F0c5F296Ed1797AaE4238D26CCaBEadb86C" as const;
+export const ARC_TOKEN = "0x905E3eAf899591398B6Ab6937851f896DE811Ee5" as const;
 export const USDC_SEPOLIA = "0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238" as const;
 
 // Legacy exports
@@ -238,6 +247,41 @@ export const VAULT_ABI = [
   },
   {
     name: "totalAssets",
+    type: "function",
+    stateMutability: "view",
+    inputs: [],
+    outputs: [{ name: "", type: "uint256" }],
+  },
+] as const;
+
+// ClaimableCPPool extra ABI
+export const CLAIMABLE_POOL_ABI = [
+  {
+    name: "claimable",
+    type: "function",
+    stateMutability: "view",
+    inputs: [{ name: "user", type: "address" }],
+    outputs: [
+      { name: "f0", type: "uint256" },
+      { name: "f1", type: "uint256" },
+    ],
+  },
+  {
+    name: "claimFees",
+    type: "function",
+    stateMutability: "nonpayable",
+    inputs: [],
+    outputs: [],
+  },
+  {
+    name: "collectedFees0",
+    type: "function",
+    stateMutability: "view",
+    inputs: [],
+    outputs: [{ name: "", type: "uint256" }],
+  },
+  {
+    name: "collectedFees1",
     type: "function",
     stateMutability: "view",
     inputs: [],

@@ -38,7 +38,7 @@ export default function Home() {
         {/* Footer */}
         <footer className="mt-12 text-center text-xs text-[#64748b] space-y-2">
           <p>
-            ArcSwap DEX — Dual AMM (x*y=k + StableSwap) on{" "}
+            ArcSwap DEX — Triple AMM (x*y=k + StableSwap + Claimable Fee) on{" "}
             <a
               href="https://testnet.arcscan.app"
               target="_blank" rel="noopener noreferrer"
@@ -62,6 +62,13 @@ export default function Home() {
               className="text-blue-400 hover:underline"
             >
               USDC/USYC (StableSwap)
+            </a>
+            <a
+              href="https://testnet.arcscan.app/address/0xF045Af472C1cf64e5604991AFB1E90CB97339a7d"
+              target="_blank" rel="noopener noreferrer"
+              className="text-blue-400 hover:underline"
+            >
+              USDC/ARC (Claimable)
             </a>
             <a
               href="https://testnet.arcscan.app/address/0x2d667ad1BB962179072a33B6592de53f184D5187"

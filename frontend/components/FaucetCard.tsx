@@ -6,8 +6,10 @@ import {
   USDC_ARC,
   EURC_ARC,
   USYC_ARC,
+  ARC_TOKEN,
   POOL_CP_USDC_EURC,
   POOL_USDC_USYC,
+  POOL_CCP_USDC_ARC,
   VAULT_ADDRESS,
   ERC20_ABI,
   POOL_ABI,
@@ -37,12 +39,20 @@ export function FaucetCard() {
     address: USYC_ARC, abi: ERC20_ABI, functionName: "balanceOf",
     args: address ? [address] : undefined, query: { enabled: !!address },
   });
+  const { data: arcBal } = useReadContract({
+    address: ARC_TOKEN, abi: ERC20_ABI, functionName: "balanceOf",
+    args: address ? [address] : undefined, query: { enabled: !!address },
+  });
   const { data: lpBal } = useReadContract({
     address: POOL_CP_USDC_EURC, abi: POOL_ABI, functionName: "balanceOf",
     args: address ? [address] : undefined, query: { enabled: !!address },
   });
   const { data: lp2Bal } = useReadContract({
     address: POOL_USDC_USYC, abi: POOL_ABI, functionName: "balanceOf",
+    args: address ? [address] : undefined, query: { enabled: !!address },
+  });
+  const { data: lp3Bal } = useReadContract({
+    address: POOL_CCP_USDC_ARC, abi: POOL_ABI, functionName: "balanceOf",
     args: address ? [address] : undefined, query: { enabled: !!address },
   });
   const { data: vaultBal } = useReadContract({
@@ -76,6 +86,12 @@ export function FaucetCard() {
       color: "text-cyan-400",
     },
     {
+      symbol: "ARC",
+      label: "ERC-20 (18 dec)",
+      balance: arcBal !== undefined ? Number(formatUnits(arcBal, 18)).toFixed(2) : "...",
+      color: "text-orange-400",
+    },
+    {
       symbol: "asLP-USDC-EURC",
       label: "LP Token (18 dec)",
       balance: lpBal !== undefined ? Number(formatUnits(lpBal, 18)).toFixed(6) : "...",
@@ -86,6 +102,12 @@ export function FaucetCard() {
       label: "LP Token (18 dec)",
       balance: lp2Bal !== undefined ? Number(formatUnits(lp2Bal, 18)).toFixed(6) : "...",
       color: "text-purple-300",
+    },
+    {
+      symbol: "asLP-USDC-ARC",
+      label: "LP Token (18 dec)",
+      balance: lp3Bal !== undefined ? Number(formatUnits(lp3Bal, 18)).toFixed(6) : "...",
+      color: "text-orange-300",
     },
     {
       symbol: "avShares",

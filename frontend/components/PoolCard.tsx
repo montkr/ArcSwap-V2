@@ -12,6 +12,7 @@ import {
   POOLS,
   POOL_ABI,
   ERC20_ABI,
+  CLAIMABLE_POOL_ABI,
 } from "@/lib/contracts";
 
 export function PoolCard() {
@@ -46,6 +47,14 @@ export function PoolCard() {
   });
   const { data: virtualPrice } = useReadContract({
     address: pool.address, abi: POOL_ABI, functionName: "getVirtualPrice",
+  });
+
+  // Claimable fees (only for ccp type)
+  const isCcp = pool.type === "ccp";
+  const { data: claimableData, refetch: refetchClaimable } = useReadContract({
+    address: pool.address, abi: CLAIMABLE_POOL_ABI, functionName: "claimable",
+    args: address ? [address] : undefined,
+    query: { enabled: !!address && isCcp },
   });
 
   // Allowances
@@ -113,6 +122,14 @@ export function PoolCard() {
     writeContract({
       address: pool.address, abi: POOL_ABI, functionName: "removeLiquidity",
       args: [parsedLpRemove, [BigInt(0), BigInt(0)]],
+    });
+  }
+
+  function handleClaim() {
+    if (!address) return;
+    setStep("executing");
+    writeContract({
+      address: pool.address, abi: CLAIMABLE_POOL_ABI, functionName: "claimFees",
     });
   }
 
@@ -193,6 +210,32 @@ export function PoolCard() {
               {isBusy ? "Processing..." : "Remove Liquidity"}
             </button>
           </>
+        )}
+
+        {/* Claim Fees (ccp pools only) */}
+        {isCcp && isConnected && (
+          <div className="mt-4 bg-[#0f172a] rounded-xl p-4">
+            <div className="flex justify-between items-center mb-2">
+              <span className="text-sm font-semibold text-orange-400">Claimable Fees</span>
+              <button onClick={() => refetchClaimable()}
+                className="text-xs text-[#64748b] hover:text-white">Refresh</button>
+            </div>
+            <div className="text-xs text-[#94a3b8] space-y-1 mb-3">
+              <div className="flex justify-between">
+                <span>{pool.token0.symbol}</span>
+                <span>{claimableData ? formatUnits(claimableData[0], pool.token0.decimals) : "0"}</span>
+              </div>
+              <div className="flex justify-between">
+                <span>{pool.token1.symbol}</span>
+                <span>{claimableData ? formatUnits(claimableData[1], pool.token1.decimals) : "0"}</span>
+              </div>
+            </div>
+            <button onClick={handleClaim}
+              disabled={isBusy || !claimableData || (claimableData[0] === BigInt(0) && claimableData[1] === BigInt(0))}
+              className="w-full py-2 rounded-lg font-semibold text-sm bg-orange-600 hover:bg-orange-700 transition disabled:opacity-50">
+              {isBusy ? "Processing..." : "Claim Fees"}
+            </button>
+          </div>
         )}
 
         {txHash && (

@@ -1,8 +1,8 @@
-# ArcSwap - Stablecoin DEX on Arc Network
+# ArcSwap V2 - Stablecoin DEX on Arc Network
 
 Triple AMM DEX on Arc Testnet (Circle's L1 blockchain): ConstantProduct (x*y=k) + StableSwap + Claimable Fee Pool.
 
-**Live**: https://wanggang22.github.io/ArcSwap/
+**Live**: https://montkr.github.io/ArcSwap-V2/
 
 ## Features
 
@@ -21,6 +21,12 @@ Triple AMM DEX on Arc Testnet (Circle's L1 blockchain): ConstantProduct (x*y=k) 
 | ConstantProduct | USDC/EURC | x*y=k (real exchange rate) | Fee stays in reserves (Uniswap v2 style) |
 | StableSwap | USDC/USYC | Curve (A=100) | Admin fee claimable by owner |
 | Claimable Fee | USDC/ARC | x*y=k + separate fee accounting | LP holders claim fees via `claimFees()` |
+
+## V2 Improvements over V1
+
+- **ClaimableCPPool** - New pool type with separate fee accounting, LP holders can claim accumulated fees
+- **Triple AMM** - Three pool types vs V1's two (Dual AMM)
+- **Fee Claim UI** - Dedicated interface for LP fee claiming
 
 ## Deployed Contracts (Arc Testnet)
 
